@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useClient } from '../hooks/useClient'
-import styled from 'styled-components'
 
 const TopBar = () => {
     const [name, setName] = useState(null)
