@@ -107,8 +107,15 @@ const TicketSideBar = () => {
 
   const handleAddInternalNote = async () => {
     try {
-      await client.set('comment.type', 'internalNote')
-      await client.set('comment.text', 'Checked from the Ticket Assistant app.')
+      const metadata = await client.metadata();
+      console.log("metadata>>>>>>>>>>", metadata)
+      const note = metadata?.settings?.internalNote;
+      if (note) {
+        await client.set('comment.type', 'internalNote')
+        await client.set('comment.text', note)
+      } else {
+        console.log("No note found in the metadata")
+      }
     } catch (error) {
       console.error(error)
     }
