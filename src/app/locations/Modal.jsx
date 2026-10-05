@@ -6,6 +6,7 @@ const Modal = () => {
 
   const client = useClient()
   const [comments, setComments] = useState(null)
+  const [error, setError] = useState(null)
 
   const params = new URLSearchParams(window.location.search)
 
@@ -21,6 +22,7 @@ const Modal = () => {
   }
 
   const fetchComments = async () => {
+    setError(null)
     const response = await client.request({
       url: `/api/v2/tickets/${ticket.id}/comments.json`,
       type: 'GET'
@@ -35,7 +37,9 @@ const Modal = () => {
         const comments = await fetchComments();
         setComments(comments)
       } catch (error) {
-        console.log('error>>>>>>', error)
+        console.error(error)
+        setError("Could not load comments")
+        setComments(null)
       }
     }
 
@@ -58,24 +62,30 @@ const Modal = () => {
 
       <hr />
 
+
+
       {
-        comments === null ? (
-          <p>Loading....</p>
-        ) :
-          comments.length
-            ?
-            comments.map((comment) => (
-              <div key={comment.id}>
-                <p>id: {comment.id}</p>
-                <p>body: {comment.body}</p>
-                <p>{comment.public ? 'Public reply' : 'Internal note'}</p>
-                <hr />
-              </div>
-            ))
-            :
-            (
-              <p>No Comments</p>
-            )
+        error ? (
+          <p>Error: {error}</p>
+        ) : (
+          comments === null ? (
+            <p>Loading....</p>
+          ) :
+            comments.length
+              ?
+              comments.map((comment) => (
+                <div key={comment.id}>
+                  <p>id: {comment.id}</p>
+                  <p>body: {comment.body}</p>
+                  <p>{comment.public ? 'Public reply' : 'Internal note'}</p>
+                  <hr />
+                </div>
+              ))
+              :
+              (
+                <p>No Comments</p>
+              )
+        )
       }
     </div>
   )
