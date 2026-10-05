@@ -36,23 +36,31 @@ const TicketSideBar = () => {
     const onStatusChanged = (status) => {
       setTicket((current) => (current ? { ...current, status } : current))
     }
+    const onPriorityChanged = (priority) => {
+      setTicket((current) => (current ? { ...current, priority } : current))
+    }
 
     client.on('ticket.subject.changed', onSubjectChanged)
     client.on('ticket.status.changed', onStatusChanged)
+    client.on('ticket.priority.changed', onPriorityChanged)
 
     client.get([
       "ticket.id",
       "ticket.subject",
       "ticket.description",
       "ticket.status",
-      "ticket.requester.name"
+      "ticket.requester.name",
+      "ticket.priority",
+      "ticket.assignee.user.name",
     ]).then((data) => {
       const ticketData = {
         id: data['ticket.id'],
         subject: data['ticket.subject'],
         description: data['ticket.description'],
         status: data['ticket.status'],
-        requester: data['ticket.requester.name']
+        requester: data['ticket.requester.name'],
+        priority: data['ticket.priority'],
+        assignee: data['ticket.assignee.user.name'] ?? "Unassigned"
       }
       setTicket(ticketData)
     })
@@ -60,6 +68,7 @@ const TicketSideBar = () => {
     return () => {
       client.off('ticket.subject.changed', onSubjectChanged)
       client.off('ticket.status.changed', onStatusChanged)
+      client.off('ticket.priority.changed', onPriorityChanged)
     }
 
   }, [client])
@@ -105,6 +114,14 @@ const TicketSideBar = () => {
     }
   }
 
+  const handlePriorityChange = async (priority) => {
+    try {
+      await client.set('ticket.priority', priority)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <Panel>
       <LG isBold>{t('ticket_sidebar.title')}</LG>
@@ -132,6 +149,14 @@ const TicketSideBar = () => {
             <Label>Requester</Label>
             <Value>{ticket.requester}</Value>
           </Detail>
+          <Detail>
+            <Label>Priority</Label>
+            <Value>{ticket.priority}</Value>
+          </Detail>
+          <Detail>
+            <Label>Assignee</Label>
+            <Value>{ticket.assignee}</Value>
+          </Detail>
         </Details>
       )}
       <Actions>
@@ -150,6 +175,10 @@ const TicketSideBar = () => {
         <Button isBasic onClick={handleAddInternalNote} disabled={!ticket}>
           Add Internal Note
         </Button>
+        <Button onClick={() => handlePriorityChange('low')} disabled={!ticket}>Low</Button>
+        <Button onClick={() => handlePriorityChange('normal')} disabled={!ticket}>Normal</Button>
+        <Button onClick={() => handlePriorityChange('high')} disabled={!ticket}>High</Button>
+        <Button onClick={() => handlePriorityChange('urgent')} disabled={!ticket}>Urgent</Button>
       </Actions>
     </Panel>
   )
