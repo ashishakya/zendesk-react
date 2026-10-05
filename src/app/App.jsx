@@ -4,11 +4,13 @@ import { TranslationProvider } from './contexts/TranslationProvider'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 
 const TicketSideBar = lazy(() => import('./locations/TicketSideBar'))
+const TopBar = lazy(() => import('./locations/TopBar'))
 const Modal = lazy(() => import('./locations/Modal'))
 
 const LOCATIONS = {
   ticket_sidebar: TicketSideBar,
   modal: Modal,
+  top_bar: TopBar,
   default: () => null
 }
 
