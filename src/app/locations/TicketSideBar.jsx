@@ -40,9 +40,19 @@ const TicketSideBar = () => {
       setTicket((current) => (current ? { ...current, priority } : current))
     }
 
+    const onTicketSave = () => {
+      return client.get("ticket.priority").then((data) => {
+        const priority = data["ticket.priority"];
+        if (!priority || priority === "-") {
+          return Promise.reject("Choose a priority for the ticket for saving.")
+        }
+      })
+    }
+
     client.on('ticket.subject.changed', onSubjectChanged)
     client.on('ticket.status.changed', onStatusChanged)
     client.on('ticket.priority.changed', onPriorityChanged)
+    client.on('ticket.save', onTicketSave)
 
     client.get([
       "ticket.id",
@@ -69,6 +79,7 @@ const TicketSideBar = () => {
       client.off('ticket.subject.changed', onSubjectChanged)
       client.off('ticket.status.changed', onStatusChanged)
       client.off('ticket.priority.changed', onPriorityChanged)
+      client.off('ticket.save', onTicketSave)
     }
 
   }, [client])
@@ -108,7 +119,6 @@ const TicketSideBar = () => {
   const handleAddInternalNote = async () => {
     try {
       const metadata = await client.metadata();
-      console.log("metadata>>>>>>>>>>", metadata)
       const note = metadata?.settings?.internalNote;
       if (note) {
         await client.set('comment.type', 'internalNote')

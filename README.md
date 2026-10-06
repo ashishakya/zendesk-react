@@ -6,6 +6,7 @@ To Know:
 - [ ] How router works
 - [ ] Task 11, getting value from the users
 - [ ] After the app is installed in Zendesk, the same request goes through Zendesk's servers. Those servers only forward it if the hostname is in domainWhitelist. Without that entry, the installed app shows "Could not load the sample task." even though your local popover shows the title.
+- [ ] Task 12, external api json 
 # React App Scaffold
 
 ## Description
