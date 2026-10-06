@@ -30,6 +30,9 @@
       "secure": false
     }
   ],
+  "domainWhitelist": [
+    "jsonplaceholder.typicode.com"
+  ],
   "version": "1.0",
   "frameworkVersion": "2.0"
 }
