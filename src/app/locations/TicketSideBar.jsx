@@ -85,6 +85,7 @@ const TicketSideBar = () => {
     }
 
     client.on('app.activated', loadTicket)
+    loadTicket()
 
     return () => {
       client.off('ticket.subject.changed', onSubjectChanged)
