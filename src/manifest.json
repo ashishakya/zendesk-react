@@ -19,6 +19,9 @@
       "user_sidebar": {
         "url": "http://localhost:3000/",
         "flexible": true
+      },
+      "nav_bar": {
+        "url": "http://localhost:3000/",
       }
     }
   },
