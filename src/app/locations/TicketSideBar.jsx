@@ -40,7 +40,7 @@ const TicketSideBar = () => {
       setTicket((current) => (current ? { ...current, priority } : current))
     }
 
-    const onTagsChanged = (tags)=>{
+    const onTagsChanged = (tags) => {
       setTicket((current) => (current ? { ...current, tags } : current))
     }
 
@@ -68,7 +68,7 @@ const TicketSideBar = () => {
         "ticket.requester.name",
         "ticket.priority",
         "ticket.assignee.user.name",
-        // "ticket.tags"
+        "ticket.tags"
       ]).then((data) => {
         const ticketData = {
           id: data['ticket.id'],
@@ -78,7 +78,7 @@ const TicketSideBar = () => {
           requester: data['ticket.requester.name'],
           priority: data['ticket.priority'],
           assignee: data['ticket.assignee.user.name'] ?? "Unassigned",
-          // tags: data['ticket.tags'] ?? []
+          tags: data['ticket.tags'] ?? []
         }
         setTicket(ticketData)
       })
@@ -120,10 +120,12 @@ const TicketSideBar = () => {
       const tags = response["ticket.tags"]
 
       if (tags.includes(tagToBeAdded)) {
+        client.invoke("notify", "Tag app_follow_up already exists on this ticket.", "alert")
         return
       }
 
       await client.set('ticket.tags', [...tags, tagToBeAdded])
+      client.invoke('notify', 'Tag app_follow_up added.', 'notice')
     } catch (error) {
       console.error(error)
     }
