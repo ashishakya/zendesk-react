@@ -44,7 +44,7 @@ const TicketSideBar = () => {
       return client.get("ticket.priority").then((data) => {
         const priority = data["ticket.priority"];
         if (!priority || priority === "-") {
-          return Promise.reject("Choose a priority for the ticket for saving.")
+          return Promise.reject(t("ticket_sidebar.priority_required"))
         }
       })
     }

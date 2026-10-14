@@ -7,7 +7,8 @@
     "title": "Example App"
   },
   "ticket_sidebar": {
-    "title": "Hello from Ticket Side Bar"
+    "title": "Hello from Ticket Side Bar",
+    "priority_required": "Choose a priority before submitting."
   },
   "modal": {
     "title": "Hello from Modal"
