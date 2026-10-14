@@ -1,6 +1,7 @@
 {
   "ticket_sidebar": {
-    "title": "Bonjour du Ticket Side Bar"
+    "title": "Bonjour du Ticket Side Bar",
+    "priority_required": "hoisissez une priorité avant d'envoyer."
   },
   "modal": {
     "title": "Bonjour du Modal"
