@@ -54,32 +54,37 @@ const TicketSideBar = () => {
     client.on('ticket.priority.changed', onPriorityChanged)
     client.on('ticket.save', onTicketSave)
 
-    client.get([
-      "ticket.id",
-      "ticket.subject",
-      "ticket.description",
-      "ticket.status",
-      "ticket.requester.name",
-      "ticket.priority",
-      "ticket.assignee.user.name",
-    ]).then((data) => {
-      const ticketData = {
-        id: data['ticket.id'],
-        subject: data['ticket.subject'],
-        description: data['ticket.description'],
-        status: data['ticket.status'],
-        requester: data['ticket.requester.name'],
-        priority: data['ticket.priority'],
-        assignee: data['ticket.assignee.user.name'] ?? "Unassigned"
-      }
-      setTicket(ticketData)
-    })
+    const loadTicket = () => {
+      client.get([
+        "ticket.id",
+        "ticket.subject",
+        "ticket.description",
+        "ticket.status",
+        "ticket.requester.name",
+        "ticket.priority",
+        "ticket.assignee.user.name",
+      ]).then((data) => {
+        const ticketData = {
+          id: data['ticket.id'],
+          subject: data['ticket.subject'],
+          description: data['ticket.description'],
+          status: data['ticket.status'],
+          requester: data['ticket.requester.name'],
+          priority: data['ticket.priority'],
+          assignee: data['ticket.assignee.user.name'] ?? "Unassigned"
+        }
+        setTicket(ticketData)
+      })
+    }
+
+    client.on('app.activated', loadTicket)
 
     return () => {
       client.off('ticket.subject.changed', onSubjectChanged)
       client.off('ticket.status.changed', onStatusChanged)
       client.off('ticket.priority.changed', onPriorityChanged)
       client.off('ticket.save', onTicketSave)
+      client.off('app.activated', loadTicket)
     }
 
   }, [client])
