@@ -21,7 +21,11 @@
         "flexible": true
       },
       "nav_bar": {
+        "url": "http://localhost:3000/"
+      },
+      "new_ticket_sidebar": {
         "url": "http://localhost:3000/",
+        "flexible": true
       }
     }
   },
