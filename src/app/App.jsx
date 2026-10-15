@@ -9,6 +9,7 @@ const Modal = lazy(() => import('./locations/Modal'))
 const UserSideBar = lazy(() => import('./locations/UserSideBar'))
 const NavBar = lazy(() => import('./locations/NavBar'))
 const NewTicketSideBar = lazy(() => import('./locations/NewTicketSideBar'))
+const OrganizationSideBar = lazy(() => import('./locations/OrganizationSideBar'))
 
 const LOCATIONS = {
   ticket_sidebar: TicketSideBar,
@@ -17,6 +18,7 @@ const LOCATIONS = {
   user_sidebar: UserSideBar,
   nav_bar: NavBar,
   new_ticket_sidebar: NewTicketSideBar,
+  organization_sidebar: OrganizationSideBar,
   default: () => null
 }
 
